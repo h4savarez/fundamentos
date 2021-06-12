@@ -1,0 +1,98 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+ intermediate R
+ 
+```{r}
+3 == (2 + 1)
+"intermediate" != "r"
+TRUE != FALSE
+"Rchitect" != "rchitect"
+
+```
+
+greater and ess than
+
+```{r}
+-6*5+2 >= -10+1
+
+"raining" <= "table"
+TRUE > FALSE
+
+
+```
+COMPARE VECTORS and matrices
+```{r}
+linkedin <- c(16,9,13,5,2,17,14)
+facebook <- c(17,7,5,16,8,13,14)
+
+
+linkedin > 15 
+facebook <= 10
+
+linkedin > facebook
+
+views <- matrix(c(linkedin,facebook), nrow = 2, byrow = TRUE)
+
+views == 13
+views <=14
+
+```
+
+operator logical
+```{r}
+
+linkedin <= 10 & facebook == 13
+
+linkedin <= 10 | facebook == 13
+views >11 & views <=14
+
+```
+
+the if statement
+```{r}
+medium <- "linkedin"
+num_views <- 14
+
+if (medium == "linkedin"){print("showing linkedIn information")
+  }else {
+  print("unknown medium")
+  }
+
+if (num_views >15){
+  print("youre popuar")
+}else{
+  print("try to be more visibe")
+}
+
+
+```
+
+customize further : ese if
+
+
+```{r}
+if (medium == "linkedin")
+  {print("showing linkedIn information")
+  } else if(medium == "facebook"){
+  print("Show facebook information")
+  }
+
+```
+else 2.0
+
+```{r}
+if(number < 10) {
+  result <- "medium"
+}else
+   
+```
+
+
+
+
+
+
+ 
+ 
