@@ -86,6 +86,8 @@ seectin eements from
 my_list[[1]][4]
 my_list[[2]][2,2]
 my_list[[3]][2:3]
+my_list[[3]][2:3,c("rotation","rings")]
+
 ```
 
 
