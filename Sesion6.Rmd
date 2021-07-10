@@ -1,0 +1,160 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+
+gapminder %>%
+  summarize(medianLifeExp = median(lifeExp))
+
+gapminder %>%
+  filter (year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp))
+
+gapminder %>%
+  filter (year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+```
+
+
+```{r}
+gapminder %>%
+  group_by(year) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+
+```
+```{r}
+gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+
+
+```
+
+```{r}
+
+gapminder %>%
+  filter(year == 1957)%>%
+  group_by(continent) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+```
+```{r}
+by_year_continent <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(medianGdpPercap = median(gdpPercap))
+
+by_year_continent
+
+ggplot(by_year_continent,aes(x=year, y=medianGdpPercap, color=continent))+
+  geom_point()
+
+
+```
+
+type of visuaization
+```{r}
+
+by_year <- gapminder %>%
+  group_by(year) %>%
+  summarize(medianGdpPerCap = median(gdpPercap))
+
+ggplot(by_year, aes(x=year, y= medianGdpPerCap))+
+  geom_line()
+```
+```{r}
+
+by_year_continent <- gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianGdpPerCap = median(gdpPercap))
+
+ggplot(by_year_continent, aes(x=year, y= medianGdpPerCap, color=continent))+
+  geom_line()
+```
+
+```{r}
+oceania_1952 <- gapminder%>%
+  filter(continent == "Oceania", year == 1952)
+
+oceania_1952
+ggplot(oceania_1952, aes(x=country, y=gdpPercap, fill = country))+
+  geom_col()
+
+
+```
+
+```{r}
+
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952) %>%
+  mutate(pop_by_mil = pop / 1000000)
+
+gapminder_1952
+
+
+ggplot(gapminder_1952, aes(x=pop_by_mil))+
+  geom_histogram(bins = 50)
+
+```
+```{r}
+
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+  
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=pop))+
+  geom_histogram(bins = 50)+
+  scale_x_log10()
+```
+
+boxplots
+```{r}
+
+
+gapminder_1952 <- gapminder %>%
+   filter(year == 1952)
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=continent, y=gdpPercap))+
+   geom_boxplot()+
+    scale_y_log10()
+
+```
+```{r}
+
+
+gapminder_1952 <- gapminder %>%
+   filter(year == 1952)
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x="oceania", y=gdpPercap))+
+   geom_boxplot()+
+    scale_y_log10()
+
+
+```
+```{r}
+
+counties <- read_csv("counties.csv")
+counties
+
+
+
+```
+```{r}
+
+counties %>%
+ select (state, county, population, men, women) %>%
+  mutate(proportions_men = men/population) %>%
+  filter(population > 10000) %>%
+  arrange(desc(proportions_men))
+
+```
+

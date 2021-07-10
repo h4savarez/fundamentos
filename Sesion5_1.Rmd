@@ -1,0 +1,112 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+introduction TO THE TIDYVERSE
+para relizar filtrado, etc
+```{r}
+library(gapminder)
+library(dplyr)
+
+gapminder
+
+
+```
+filtering
+
+
+```{r}
+gapminder %>%
+    filter(year==1957)
+
+
+
+```
+
+arrange()
+
+```{r}
+gapminder %>%
+arrange((lifeExp) )
+
+gapminder %>%
+arrange(desc(lifeExp) )
+
+```
+
+filter and aranging
+```{r}
+gapminder %>%
+      filter(year==1957) %>%
+      arrange(desc(pop)) 
+
+
+```
+mutate
+```{r}
+gapminder %>%
+  fiter(year==2007)%>%
+  mutate(lifeExpMonths=12* lifeExp)%>%
+  arrange(desc(lifeExpMonths))
+
+
+```
+ggplot2
+
+```{r}
+
+library(ggplot2)
+
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=pop, y=gdpPercap)) + 
+  geom_point()
+
+
+
+```
+
+log scaing
+
+```{r}
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=pop, y=gdpPercap)) + 
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+
+
+```{r}
+gapminder_1952
+ggplot(gapminder_1952, aes(x=pop, y=lifeExp, color=continent)) + 
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()
+```
+```{r}
+gapminder_1952
+ggplot(gapminder_1952, aes(x=pop, y=lifeExp, color=continent, size=gdpPercap)) + 
+  geom_point() +
+  scale_x_log10()
+
+```
+
+
+
+```{r}
+
+
+ggplot(gapminder, aes(x=gdpPercap, y=lifeExp)) + 
+  geom_point() +
+  scale_x_log10()
+  facet_wrap(~year)
+
+```
+
