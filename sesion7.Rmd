@@ -1,0 +1,77 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+X
+
+```{r}
+library(tidyverse)
+sets <- read_csv('sets.csv')
+themes <- read_csv('themes.csv')
+parts <- read_csv('parts.csv')
+part_categories <- read_csv('part_categories.csv')
+
+```
+```{r}
+counties <- read.csv("counties.csv")
+
+counties
+
+counties%>%
+  select(state, county, population, professional:production)
+
+counties %>%
+  select(state, county, population, professional:production)
+  
+
+```
+
+```{r}
+counties%>%
+  count(state) %>%
+  rename(num_counties = n)
+
+counties%>%
+  select(state, county, poverty_rate = poverty)
+
+```
+using transmute
+
+```{r}
+counties %>%
+  transmute(state, county, population, density=population/land_area)%>%
+  filter (population > 100000) %>%
+  arrange(density)
+  
+
+```
+```{r}
+
+counties%>%
+  rename(unemployment_rate = unemployment)
+
+counties %>%
+  select(state, county, contains("poverty"))
+```
+
+```{r}
+counties%>%
+  mutate (fracction_women = women/population)
+
+counties%>%
+  transmute(state, county, employmet_rate = employed / population)
+```
+```{r}
+sets
+
+```
+
+
+```{r}
+sets %>%
+  inner_join(themes, by=c("theme_id"="id"))
+
+```
+
+

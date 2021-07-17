@@ -1,0 +1,241 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+
+library(tidyverse)
+
+gapminder %>%
+summarize(medianLifeExp = median(lifeExp))
+
+gapminder %>%
+  filter (year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp))
+
+gapminder %>%
+  filter (year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+```
+
+
+```{r}
+gapminder %>%
+  group_by(year) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+
+```
+```{r}
+gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+
+
+```
+
+```{r}
+
+gapminder %>%
+  filter(year == 1957)%>%
+  group_by(continent) %>%
+  summarize(medianLifeExp = median(lifeExp), max(gdpPercap))
+  
+```
+```{r}
+by_year_continent <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(medianGdpPercap = median(gdpPercap))
+
+by_year_continent
+
+ggplot(by_year_continent,aes(x=year, y=medianGdpPercap, color=continent))+
+  geom_point()
+
+
+```
+
+type of visuaization
+```{r}
+
+by_year <- gapminder %>%
+  group_by(year) %>%
+  summarize(medianGdpPerCap = median(gdpPercap))
+
+ggplot(by_year, aes(x=year, y= medianGdpPerCap))+
+  geom_line()
+```
+```{r}
+
+by_year_continent <- gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianGdpPerCap = median(gdpPercap))
+
+ggplot(by_year_continent, aes(x=year, y= medianGdpPerCap, color=continent))+
+  geom_line()
+```
+
+```{r}
+oceania_1952 <- gapminder%>%
+  filter(continent == "Oceania", year == 1952)
+
+oceania_1952
+ggplot(oceania_1952, aes(x=country, y=gdpPercap, fill = country))+
+  geom_col()
+
+
+```
+
+```{r}
+
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952) %>%
+  mutate(pop_by_mil = pop / 1000000)
+
+gapminder_1952
+
+
+ggplot(gapminder_1952, aes(x=pop_by_mil))+
+  geom_histogram(bins = 50)
+
+```
+```{r}
+
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+  
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=pop))+
+  geom_histogram(bins = 50)+
+  scale_x_log10()
+```
+
+boxplots
+```{r}
+
+
+gapminder_1952 <- gapminder %>%
+   filter(year == 1952)
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x=continent, y=gdpPercap))+
+   geom_boxplot()+
+    scale_y_log10()
+
+```
+```{r}
+
+
+gapminder_1952 <- gapminder %>%
+   filter(year == 1952)
+
+gapminder_1952
+
+ggplot(gapminder_1952, aes(x="oceania", y=gdpPercap))+
+   geom_boxplot()+
+    scale_y_log10()
+
+
+```
+```{r}
+
+counties <- read_csv("counties.csv")
+counties
+
+
+
+```
+```{r}
+
+counties %>%
+ select (state, county, population, men, women) %>%
+  mutate(proportions_men = men/population) %>%
+  filter(population > 10000) %>%
+  arrange(desc(proportions_men))
+
+```
+
+```{r}
+
+counties_selected <- counties %>%
+  select(county, region, state, population, citizens)
+
+counties_selected %>%
+  count(region, sort=TRUE)
+
+counties_selected %>%
+  count(state, wt = citizens) %>%
+  arrange(desc(n))
+
+counties_selected <- counties%>%
+ select(county, region, state, population, citizens, walk)
+
+counties_selected %>%
+  mutate(population_walk = population*walk/100) %>%
+  count(state, wt=population_walk, sort=TRUE)
+```
+
+```{r}
+counties_selected <- counties %>%
+   select(county, population, income, unemployment)
+
+counties_selected %>%
+  summarize(min_population=min(population), max_unemplotment=max(unemployment), average_income=mean(income))
+  
+counties_selected <- counties %>%
+    select(state, county, population, land_area)
+  
+counties_selected %>%
+  group_by(state) %>%
+  summarize(total_area=sum(land_area), total_population=sum(population))
+
+counties_selected <- counties %>%
+    select(region, state, county, population)
+
+counties_selected %>%
+  group_by(region, state)%>%
+  summarize(total_pop = sum(population))%>%
+  ungroup()%>%
+  summarize(average_pop=mean(total_pop), median(total_pop))
+
+```
+
+```{r}
+counties_selected <- counties %>%
+  select(region, state, county, metro, population, walk)
+
+counties_selected %>%
+  group_by(region,)%>%
+  top_n(2, walk)
+
+counties_selected <- counties %>%
+  select (region, state, county, population, income)
+
+counties_selected %>%
+  group_by(region, state)%>%
+  summarize(average_income=mean(income))%>%
+  top_n(1, average_income)
+```
+
+
+
+
+```{r}
+counties_selected <- counties %>%
+  select (region, state, county, population, income, metro)
+
+  counties_selected %>%
+  group_by(state, metro)%>%
+  summarize(total_pop = sum(population))%>%
+  top_n(1, total_pop)%>%
+  ungroup()%>%
+  count(metro)
+
+ 
+  
+```
+
